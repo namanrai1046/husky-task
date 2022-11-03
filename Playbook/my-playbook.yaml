@@ -41,7 +41,7 @@
   #     npx husky add .husky/pre-commit "npm test"
 
   - name: Run a script 
-    shell: "home/ubuntu/task/client/test.sh"
+    command: sh "task/client/test.sh"
   # - name: install Docker
   #   apt:
   #     name: docker.io
