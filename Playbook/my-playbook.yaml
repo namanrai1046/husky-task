@@ -1,0 +1,67 @@
+---
+- name: Scheduled Tasks
+  hosts: aws_region_us_east_1
+  become: yes
+  become_method: sudo
+  tasks:
+  - name: "Update Repository cache"
+    apt:
+      update_cache: true
+      cache_valid_time: 3600
+      force_apt_get: true
+
+  - name: "Add nodejs apt key"
+    apt_key:
+      url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+      state: present
+
+  - name: "Add nodejs 16.x ppa for apt repo"
+    apt_repository:
+      repo: deb https://deb.nodesource.com/node_16.x focal main
+      update_cache: yes
+
+  - name: "Install nodejs"
+    apt:
+      update_cache: yes
+      name: nodejs
+      state: present
+  - name: Clone a github repository
+    git:
+      repo: https://github.com/namanrai1046/mern-todo.git
+      dest: /home/ubuntu/task
+      clone: yes
+      update: yes
+  
+  - name: Change the working directory and install npm husky
+    ansible.builtin.shell: |
+      cd /task/client
+      npm install 
+      npm install husky
+      mkdir .husky 
+      npx husky add .husky/pre-commit "npm test"
+  # - name: install Docker
+  #   apt:
+  #     name: docker.io
+  #     state: latest
+  # - name: install Docker compose
+  #   apt:
+  #     name: docker-compose
+  # - name: ZIP
+  #   apt:
+  #     name: zip
+  # - name: Copy zipped source code folder to server
+  #   copy:
+  #     src: ../mern-todo.zip
+  #     dest: /home/ubuntu/mern-todo.zip
+  # - name: unzip souce code folder
+  #   unarchive:
+  #     src: /home/ubuntu/mern-todo.zip
+  #     dest: /home/ubuntu/
+  #     remote_src: yes
+  # - name: building container
+  #   args:
+  #     chdir: ./mern-todo
+  #   shell:
+  #     docker-compose build && docker-compose up && exit
+
+  
