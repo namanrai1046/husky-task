@@ -32,13 +32,16 @@
       clone: yes
       update: yes
   
-  - name: Change the working directory and install npm husky
-    ansible.builtin.shell: |
-      cd /task/client
-      npm install 
-      npm install husky
-      mkdir .husky 
-      npx husky add .husky/pre-commit "npm test"
+  # - name: Change the working directory and install npm husky
+  #   ansible.builtin.shell: |
+  #     cd /task/client
+  #     npm install 
+  #     npm install husky
+  #     mkdir .husky 
+  #     npx husky add .husky/pre-commit "npm test"
+
+  - name: Run a script 
+    ansible.builtin.script: /home/ubuntu/task/client/test.sh
   # - name: install Docker
   #   apt:
   #     name: docker.io
