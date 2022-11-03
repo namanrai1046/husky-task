@@ -41,7 +41,8 @@
   #     npx husky add .husky/pre-commit "npm test"
 
   - name: Run a script 
-    ansible.builtin.script: /home/ubuntu/task/client/test.sh
+    ansible.builtin.script: 
+      cmd: sh task/client/test.sh
   # - name: install Docker
   #   apt:
   #     name: docker.io
